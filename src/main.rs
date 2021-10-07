@@ -1,4 +1,4 @@
-
+use std::io;
 
 struct Developer{
     lang : String,
@@ -10,7 +10,7 @@ struct Developer{
 
 impl Developer {
     pub fn view(&self){
-        println!("Имя - {}\nЯзык - {}\nВозраст - {}", self.name, self.lang, self.age)
+        println!("##################\nИмя - {}\nЯзык - {}\nВозраст - {}\n##################", self.name, self.lang, self.age)
     }
 
     pub fn push_tasks(&mut self, value: String){
@@ -19,6 +19,27 @@ impl Developer {
 }
 
 fn main(){
+    
+    let mut vec_tasks = Vec::new();
+    let mut args = String::new();
+
+    loop{
+    io::stdin()
+        .read_line(&mut args)
+        .expect("Failed to read line");
+        if args.trim() == "ok"{
+            args = "".to_string();
+            break;
+        }else{
+            vec_tasks.push(args.clone());
+            args = "".to_string();
+            println!("Введите `OK` если все готово")
+        }
+    };
+
+    
+
+    let mut index_tasks: i32 = 0;
    let mut Artem = Developer{
        lang : "Node.js".to_string(),
        name : "Artem".to_string(),
@@ -32,17 +53,33 @@ fn main(){
         tasks : Vec::new()
    };
    Artem.view();
-   Artem.push_tasks("Сделать чай".to_string());
-   println!("{}", &Artem.tasks[0]);
+   println!("\nЗадачи:");
+   for task in &vec_tasks{
+    index_tasks = &index_tasks + 1;
+   println!("{}. {}",&index_tasks, task) 
+}
+index_tasks = 0;
 
-   println!("\n\n");
+   loop{
+    io::stdin()
+        .read_line(&mut args)
+        .expect("Failed to read line");
+        if args.trim() == "ok"{
+            args = "".to_string();
+            break;
+        }else{
+            vec_tasks.push(args.clone());
+            args = "".to_string();
+            println!("Введите `OK` если все готово")
+        }
+    };
+    println!("\n\n");
 
-   Yura.view();
-   Yura.push_tasks("Пососать хуй".to_string());
-   Yura.push_tasks("Пойти нахуй".to_string());
-   Yura.push_tasks("Ебнуться головой об стену".to_string());
-   for task in &Yura.tasks{
-      println!("{}", task) 
+    Yura.view();
+   println!("\nЗадачи:");
+   for task in &vec_tasks{
+       index_tasks = &index_tasks + 1;
+      println!("{}. {}",&index_tasks, task) 
    }
    
 }
