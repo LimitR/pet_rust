@@ -1,85 +1,29 @@
-use std::io;
+use std::io::{self, Write};
+use std::fs::File;
 
-struct Developer{
-    lang : String,
-    name : String,
-    age : i32,
-    tasks : Vec<String>
-}
-
-
-impl Developer {
-    pub fn view(&self){
-        println!("##################\nИмя - {}\nЯзык - {}\nВозраст - {}\n##################", self.name, self.lang, self.age)
-    }
-
-    pub fn push_tasks(&mut self, value: String){
-        self.tasks.push(value)
-    }
-}
 
 fn main(){
-    
-    let mut vec_tasks = Vec::new();
-    let mut args = String::new();
-
+    let mut x: Vec<String> = Vec::new();
+    let mut final_vector: Vec<&str> = Vec::new();
+    let mut out_value = String::new();
+    let stdin = io::stdin();
     loop{
-    io::stdin()
-        .read_line(&mut args)
-        .expect("Failed to read line");
-        if args.trim() == "ok"{
-            args = "".to_string();
-            break;
-        }else{
-            vec_tasks.push(args.clone());
-            args = "".to_string();
-            println!("Введите `OK` если все готово")
-        }
-    };
-
+        stdin.read_line(&mut out_value).expect("ERROR");
+    //    io::stdin().read_line(&out_value)?; 
+       if out_value.trim() == "ok".to_string(){
+           let mut file = File::create("foo.txt").expect("ERROR CREATE FILE");
+           for value in &x{
+            final_vector.push(&value[0..value.len()-2]);
+            file.write(value.as_bytes()).unwrap();
+           };
+           println!("{:?}", &final_vector);
+           
+           break;
+       };
+       x.push(out_value);
+       out_value = "".to_string();
+    }
     
-
-    let mut index_tasks: i32 = 0;
-   let mut Artem = Developer{
-       lang : "Node.js".to_string(),
-       name : "Artem".to_string(),
-       age : 22,
-       tasks : Vec::new()
-   };
-   let mut Yura = Developer{
-        lang : "3D MAX".to_string(),
-        name : "Юра".to_string(),
-        age : 21,
-        tasks : Vec::new()
-   };
-   Artem.view();
-   println!("\nЗадачи:");
-   for task in &vec_tasks{
-    index_tasks = &index_tasks + 1;
-   println!("{}. {}",&index_tasks, task) 
 }
-index_tasks = 0;
 
-   loop{
-    io::stdin()
-        .read_line(&mut args)
-        .expect("Failed to read line");
-        if args.trim() == "ok"{
-            args = "".to_string();
-            break;
-        }else{
-            vec_tasks.push(args.clone());
-            args = "".to_string();
-            println!("Введите `OK` если все готово")
-        }
-    };
-    println!("\n\n");
 
-    Yura.view();
-   println!("\nЗадачи:");
-   for task in &vec_tasks{
-       index_tasks = &index_tasks + 1;
-      println!("{}. {}",&index_tasks, task) 
-   }
-   
-}
