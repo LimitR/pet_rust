@@ -53,9 +53,7 @@ fn main()  -> Result<()> {
             row: y,
             ..
         }) = event_win {
-
-                queue!(stdout, cursor::MoveTo(x,y), color_cursor)?;
-
+            queue!(stdout, cursor::MoveTo(x,y), color_cursor)?;
         }
         if let Event::Mouse(MouseEvent {
             kind: MouseEventKind::Drag(MouseButton::Right),
@@ -63,8 +61,7 @@ fn main()  -> Result<()> {
                 row: y,
                 ..
             }) = event_win {
-
-                    queue!(stdout, cursor::MoveTo(x,y), style::PrintStyledContent( kist.black()))?;
+                queue!(stdout, cursor::MoveTo(x,y), style::PrintStyledContent( kist.black()))?;
             }
 
         if let Event::Mouse(MouseEvent {
@@ -73,7 +70,6 @@ fn main()  -> Result<()> {
             row: y,
             ..
         }) = event_win {
-
             queue!(stdout, cursor::MoveTo(x,y), color_cursor)?;
         }
         if let Event::Mouse(MouseEvent {
@@ -85,15 +81,13 @@ fn main()  -> Result<()> {
             queue!(stdout, cursor::MoveTo(x, y), color_cursor)?;
         }
 
-            if let Event::Mouse(MouseEvent {
-                kind: MouseEventKind::Down(MouseButton::Left),
-                column: 0,
-                ..
-            }) = event_win {
-
-                color_cursor = style::PrintStyledContent( kist.red());
-            }
-
+        if let Event::Mouse(MouseEvent {
+            kind: MouseEventKind::Down(MouseButton::Left),
+            column: 0,
+            ..
+        }) = event_win {
+            color_cursor = style::PrintStyledContent( kist.red());
+        }
 
         if event_win == Event::Key(KeyCode::Esc.into()) {
             break;
